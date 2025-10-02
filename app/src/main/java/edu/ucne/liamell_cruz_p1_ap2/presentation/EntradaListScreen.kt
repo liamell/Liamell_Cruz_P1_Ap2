@@ -1,10 +1,6 @@
 package edu.ucne.liamell_cruz_p1_ap2.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -28,17 +24,10 @@ fun EntradaListScreen(
     onDelete: (EntradasEntity) -> Unit,
     onEdit: (EntradasEntity) -> Unit
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Text(
-            text = "Lista de Entradas",
-            style = MaterialTheme.typography.titleMedium
-        )
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
-        ) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Lista de Entradas", style = MaterialTheme.typography.titleMedium)
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(entradaList) { entrada ->
                 EntradaRow(entrada, onDelete, onEdit)
             }
@@ -52,41 +41,27 @@ private fun EntradaRow(
     onDelete: (EntradasEntity) -> Unit,
     onEdit: (EntradasEntity) -> Unit
 ) {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
     ) {
-        Text(modifier = Modifier.weight(1f), text = entrada.idEntrada.toString())
-        Text(
-            modifier = Modifier.weight(2f),
-            text = entrada.fecha.format(formatter),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Text(
-            modifier = Modifier.weight(3f),
-            text = entrada.nombreCliente,
-            style = MaterialTheme.typography.bodyMedium
-        )
+        Text(modifier = Modifier.weight(1f), text = entrada.idEntrada?.toString() ?: "")
+        Text(modifier = Modifier.weight(2f), text = entrada.fecha.format(formatter))
+        Text(modifier = Modifier.weight(3f), text = entrada.nombreCliente)
         Text(modifier = Modifier.weight(1f), text = entrada.cantidad.toString())
         Text(modifier = Modifier.weight(1f), text = "$${entrada.precio}")
 
-        // Botón editar
         IconButton(onClick = { onEdit(entrada) }) {
-            Icon(
-                imageVector = Icons.Default.Edit,
-                contentDescription = "Editar entrada"
-            )
+            Icon(Icons.Default.Edit, contentDescription = "Editar")
         }
 
-        // Botón eliminar
         IconButton(onClick = { onDelete(entrada) }) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Eliminar entrada"
-            )
+            Icon(Icons.Default.Delete, contentDescription = "Eliminar")
         }
     }
     HorizontalDivider()
 }
-
