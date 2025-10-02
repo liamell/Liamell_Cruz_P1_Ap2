@@ -5,7 +5,8 @@ import java.time.LocalDate
 
 @Entity(tableName = "Entradas")
 data class EntradasEntity(
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
     val idEntrada: Int? = null,
     val fecha: LocalDate,
     val nombreCliente: String,
